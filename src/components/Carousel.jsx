@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,23 +11,16 @@ import '../styles/Carousel.css';
 
 export default function Carousel() {
   const sliderRef = useRef();
+  const [slideIndex, setSlideIndex] = useState(0);
 
   const moveTo = {
     next: () => {
-      const slider = sliderRef.current;
-      if (slider.scrollLeft / slider.offsetWidth === sliderData.length - 1) {
-        slider.scrollTo(0, 0);
-      } else {
-        slider.scrollBy(slider.offsetWidth, 0);
-      }
+      if (slideIndex === sliderData.length - 1) setSlideIndex(0);
+      else setSlideIndex(slideIndex + 1);
     },
     previous: () => {
-      const slider = sliderRef.current;
-      if (slider.scrollLeft === 0) {
-        slider.scrollTo(slider.offsetWidth * (sliderData.length - 1), 0);
-      } else {
-        slider.scrollBy(-slider.offsetWidth, 0);
-      }
+      if (slideIndex === 0) setSlideIndex(sliderData.length - 1);
+      else setSlideIndex(slideIndex - 1);
     },
   };
 
@@ -44,10 +37,19 @@ export default function Carousel() {
     </div>
   );
 
+  useEffect(() => {
+    const slider = sliderRef.current;
+    slider.scrollTo(slideIndex * slider.offsetWidth, 0);
+  }, [slideIndex]);
+
   return (
     <div className='carousel'>
       {renderSlider()}
-      <button type='button' className='carousel__previous-button' onClick={moveTo.previous}>
+      <button
+        type='button'
+        className='carousel__previous-button'
+        onClick={moveTo.previous}
+      >
         <FontAwesomeIcon icon={faChevronCircleLeft} />
       </button>
       <button type='button' className='carousel__next-button' onClick={moveTo.next}>

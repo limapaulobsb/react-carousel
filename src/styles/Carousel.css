@@ -7,6 +7,7 @@
   height: 600px;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
   width: 800px;
 }
 
@@ -14,6 +15,7 @@
   background-position: center;
   background-size: cover;
   min-width: 100%;
+  scroll-snap-align: start;
 }
 
 .carousel__next-button,
