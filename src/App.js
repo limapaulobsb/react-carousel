@@ -1,7 +1,12 @@
 import React from 'react';
 
+import Carousel from './components/Carousel';
+
 function App() {
-  return <h1>Hello, my friends!</h1>;
+  return (
+    <main>
+      <Carousel />
+    </main>);
 }
 
 export default App;

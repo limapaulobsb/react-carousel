@@ -1,0 +1,41 @@
+.carousel {
+  position: relative;
+}
+
+.carousel__slider {
+  display: flex;
+  height: 600px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 800px;
+}
+
+.carousel__slide {
+  background-position: center;
+  background-size: cover;
+  min-width: 100%;
+}
+
+.carousel__next-button,
+.carousel__previous-button {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 4em;
+  height: 80px;
+  justify-content: center;
+  position: absolute;
+  top: calc(50% - 40px);
+  width: 80px;
+}
+
+.carousel__next-button {
+  right: -100px;
+}
+
+.carousel__previous-button {
+  left: -100px;
+}
