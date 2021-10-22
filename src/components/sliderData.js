@@ -24,4 +24,9 @@ export const sliderData = [
     alt: '',
     url: 'https://images.unsplash.com/photo-1634356096529-282db4ac9361?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
   },
+  {
+    id: 6,
+    alt: '',
+    url: 'https://images.unsplash.com/photo-1634523812772-75160cd0fcea?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
+  },
 ];

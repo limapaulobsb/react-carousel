@@ -5,7 +5,7 @@ import Carousel from './components/Carousel';
 function App() {
   return (
     <main>
-      <Carousel />
+      <Carousel allowAuto showSelectors />
     </main>);
 }
 
