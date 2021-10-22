@@ -6,7 +6,7 @@
 
 main {
   align-items: center;
-  background-color: #333;
+  background-color: rgb(90, 150, 150);
   display: flex;
   justify-content: center;
   min-height: 100vh;

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import cx from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -22,13 +23,16 @@ export default function Carousel() {
       if (slideIndex === 0) setSlideIndex(sliderData.length - 1);
       else setSlideIndex(slideIndex - 1);
     },
+    slide: (i) => {
+      setSlideIndex(i);
+    },
   };
 
   const renderSlider = () => (
     <div className='carousel__slider' ref={sliderRef}>
-      {sliderData.map((image) => (
+      {sliderData.map((image, index) => (
         <div
-          className='carousel__slide'
+          className={cx('carousel__slide', { active: index === slideIndex })}
           aria-label={image.alt}
           key={image.id}
           style={{ backgroundImage: `url(${image.url})` }}
@@ -36,6 +40,21 @@ export default function Carousel() {
       ))}
     </div>
   );
+
+  const renderSelectors = () => {
+    return (
+      <div className='carousel__selectors-container'>
+        {sliderData.map((image, index) => (
+          <button
+            type='button'
+            className={cx('carousel__selector-button', { active: index === slideIndex })}
+            key={image.id}
+            onClick={() => moveTo.slide(index)}
+          ></button>
+        ))}
+      </div>
+    );
+  };
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -45,6 +64,7 @@ export default function Carousel() {
   return (
     <div className='carousel'>
       {renderSlider()}
+      {renderSelectors()}
       <button
         type='button'
         className='carousel__previous-button'
