@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Children, cloneElement, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -10,22 +10,23 @@ import {
   faPlay,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { sliderData } from './sliderData';
 import '../styles/Carousel.css';
 
-export default function Carousel({ allowAuto, showSelectors }) {
+export default function Carousel({ allowAuto, children, showSelectors }) {
   const sliderRef = useRef();
   const timeoutRef = useRef();
   const [auto, setAuto] = useState(allowAuto);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const slideCount = Children.count(children);
+
   const moveTo = {
     next: () => {
-      if (slideIndex === sliderData.length - 1) setSlideIndex(0);
+      if (slideIndex === slideCount - 1) setSlideIndex(0);
       else setSlideIndex(slideIndex + 1);
     },
     previous: () => {
-      if (slideIndex === 0) setSlideIndex(sliderData.length - 1);
+      if (slideIndex === 0) setSlideIndex(slideCount - 1);
       else setSlideIndex(slideIndex - 1);
     },
     slide: (i) => {
@@ -51,32 +52,37 @@ export default function Carousel({ allowAuto, showSelectors }) {
 
   const renderSlider = () => (
     <div className='carousel__slider' ref={sliderRef}>
-      {sliderData.map((image, index) => (
-        <div
-          className={cx('carousel__slide', { active: index === slideIndex })}
-          aria-label={image.alt}
-          key={image.id}
-          style={{ backgroundImage: `url(${image.url})` }}
-        />
-      ))}
+      {Children.map(children, (child, index) => {
+        return cloneElement(child, {
+          className: cx('carousel__slide', child.props.className, {
+            active: index === slideIndex,
+          }),
+        });
+      })}
     </div>
   );
 
-  const renderSelectors = () => (
-    <div className='carousel__selectors-container'>
-      {sliderData.map((image, index) => (
-        <button
-          type='button'
-          className={cx('carousel__selector-button', { active: index === slideIndex })}
-          key={image.id}
-          onClick={() => {
-            moveTo.slide(index);
-            allowAuto && setAuto(false);
-          }}
-        ></button>
-      ))}
-    </div>
-  );
+  const renderSelectors = () => {
+    return (
+      <div className='carousel__selectors-container'>
+        {Array(slideCount)
+          .fill()
+          .map((_, index) => (
+            <button
+              type='button'
+              className={cx('carousel__selector-button', {
+                active: index === slideIndex,
+              })}
+              key={index}
+              onClick={() => {
+                moveTo.slide(index);
+                allowAuto && setAuto(false);
+              }}
+            />
+          ))}
+      </div>
+    );
+  };
 
   return (
     <div className='carousel'>
@@ -120,5 +126,6 @@ export default function Carousel({ allowAuto, showSelectors }) {
 
 Carousel.propTypes = {
   allowAuto: PropTypes.bool,
+  children: PropTypes.node,
   showSelectors: PropTypes.bool,
 };
